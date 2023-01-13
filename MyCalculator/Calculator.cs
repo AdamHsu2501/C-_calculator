@@ -8,11 +8,14 @@ namespace MyCalculator
     public class Calculator
     {
 
-        Stack<decimal> stack = new Stack<decimal>();
+        Stack<decimal> stack = new Stack<decimal>(new decimal[] { 0 });
+
+        Stack<string> st = new Stack<string>(new string[] { "0" });
+
         string sign;
         Action action;
 
-        string input = "0";
+        //string input = "0";
         Label MainLabel;
         Label SubLabel;
 
@@ -25,7 +28,9 @@ namespace MyCalculator
 
         public void DisplayInput()
         {
-            string[] arr = input.Split('.');
+
+
+            string[] arr = st.Peek().Split('.');
             string pattern = @"\d+";
             Match match = Regex.Match(arr[0], pattern);
             Group tmp = match.Groups[0];
@@ -34,33 +39,33 @@ namespace MyCalculator
             arr[0] = Regex.Replace(arr[0], pattern, replacement);
 
             MainLabel.Text = string.Join(".", arr);
-           
+
         }
-        
+
         public void DisplayProcess()
         {
         }
 
         public void Append(string x)
         {
-            input = Convert.ToDecimal(input + x).ToString();
+            var d = st.Pop();
+            st.Push(Convert.ToDecimal(d + x).ToString());
+
+
+
+            //input = Convert.ToDecimal(input + x).ToString();
             DisplayInput();
         }
 
         public void Add()
         {
-            var number = stack.Pop();
-            var prevTotal = stack.Pop();
+            var sum = st.Pop();
+            var tmp = st.Pop();
+            st.Push(tmp);
+            st.Push((Convert.ToDecimal(sum) + Convert.ToDecimal(tmp)).ToString());
 
-            var sum = prevTotal + number;
-            MainLabel.Text = sum.ToString();
-
-
-
-            SubLabel.Text = string.Format("{0} {1} {2} =", prevTotal, sign, number);
-
-            stack.Push(sum);
-            stack.Push(number);
+            SubLabel.Text = string.Format("{0} {1} {2} =", sum, sign, tmp);
+            DisplayInput();
         }
 
         public void AddStatus()
@@ -68,18 +73,28 @@ namespace MyCalculator
             //TODO add
             action = Add;
             sign = "+";
-            stack.Push(Convert.ToDecimal(input));
-            SubLabel.Text = string.Format("{0} {1}", input, sign);
-            input = "0";
+            SubLabel.Text = string.Format("{0} {1}", st.Peek(), sign);
+            st.Push(st.Peek());
         }
 
         public void Minus()
         {
+            var tmp = st.Pop();
+            var sum = st.Pop();
+            st.Push((Convert.ToDecimal(sum) - Convert.ToDecimal(tmp)).ToString());
+            st.Push(tmp);
+
+            SubLabel.Text = string.Format("{0} {1} {2} =", sum, sign, tmp);
+            DisplayInput();
         }
 
         public void MinusStatus()
         {
             //TODO minus
+            action = Minus;
+            sign = "-";
+            SubLabel.Text = string.Format("{0} {1}", st.Peek(), sign);
+            st.Push(st.Peek());
         }
 
         public void MultipleStatus()
@@ -95,7 +110,8 @@ namespace MyCalculator
 
         public void Clear()
         {
-            input = "0";
+            st.Clear();
+            st.Push("0");
             SubLabel.Text = "";
             DisplayInput();
         }
@@ -107,29 +123,32 @@ namespace MyCalculator
 
         public void Backspace()
         {
+            var tmp = st.Pop();
             string pattern = @"(^$)|(^\-$)";
-            string match = Regex.Replace(input.Substring(0, Math.Max(input.Length - 1, 0)), pattern, "0");
-            input = match;
+            string match = Regex.Replace(tmp.Substring(0, Math.Max(tmp.Length - 1, 0)), pattern, "0");
+            st.Push(match);
             DisplayInput();
         }
 
         public void Switch()
         {
-            input = (-Convert.ToDecimal(input)).ToString();
+            var tmp = st.Pop();
+            st.Push((-Convert.ToDecimal(tmp)).ToString());
             DisplayInput();
         }
 
         public void Point()
         {
-            List<string> list = new List<string>(input.Split('.'));
+            var tmp = st.Pop();
+            List<string> list = new List<string>(tmp.Split('.'));
             list.Add("");
 
-            for (var i = list.Count-1; i>1; i--)
+            for (var i = list.Count - 1; i > 1; i--)
             {
                 list[1] += list[i];
                 list.RemoveAt(i);
             }
-            input = string.Join(".", list);
+            st.Push(string.Join(".", list));
 
             DisplayInput();
         }
@@ -140,6 +159,6 @@ namespace MyCalculator
             action();
         }
 
-        
+
     }
 }
