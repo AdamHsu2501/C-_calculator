@@ -7,39 +7,43 @@ namespace MyCalculator
 {
     public class Calculator
     {
+        string Operator;
+        Stack<string> ValueStack = new Stack<string>();
 
-        Stack<decimal> stack = new Stack<decimal>(new decimal[] { 0 });
+        Label Output;
+        Label Process;
 
-        Stack<string> st = new Stack<string>(new string[] { "0" });
+        string AppendPattern = @"^0$";
+        string clearPattern = @".";
+        string currentPattern;
 
-        string sign;
-        Action action;
 
-        //string input = "0";
-        Label MainLabel;
-        Label SubLabel;
+        Action NewInputAction;
+        string Zero = "0";
+      
+
+        public void idle() { }
+
+        public void PushNewInput()
+        {
+            ValueStack.Push(Zero);
+        }
 
         public Calculator(Label mainLabel, Label subLabel)
         {
-            MainLabel = mainLabel;
-            SubLabel = subLabel;
+            Output = mainLabel;
+            Process = subLabel;
+            currentPattern = AppendPattern;
+            NewInputAction = PushNewInput;
         }
 
 
-        public void DisplayInput()
+        public void DisplayOutput(string s)
         {
-
-
-            string[] arr = st.Peek().Split('.');
-            string pattern = @"\d+";
-            Match match = Regex.Match(arr[0], pattern);
-            Group tmp = match.Groups[0];
+            string[] arr = s.Split('.');
             string format = "#,0";
-            string replacement = Convert.ToDecimal(tmp.ToString()).ToString(format);
-            arr[0] = Regex.Replace(arr[0], pattern, replacement);
-
-            MainLabel.Text = string.Join(".", arr);
-
+            arr[0] = Convert.ToDecimal(arr[0]).ToString(format);
+            Output.Text = string.Join(".", arr);
         }
 
         public void DisplayProcess()
@@ -48,115 +52,121 @@ namespace MyCalculator
 
         public void Append(string x)
         {
-            var d = st.Pop();
-            st.Push(Convert.ToDecimal(d + x).ToString());
+            NewInputAction();
 
+            var input = ValueStack.Pop();
+            input = Regex.Replace(input, currentPattern, "");
+            input += x;
+            ValueStack.Push(input);
+            DisplayOutput(input);
 
-
-            //input = Convert.ToDecimal(input + x).ToString();
-            DisplayInput();
+            currentPattern = AppendPattern;
+            NewInputAction = idle;
         }
 
-        public void Add()
-        {
-            var sum = st.Pop();
-            var tmp = st.Pop();
-            st.Push(tmp);
-            st.Push((Convert.ToDecimal(sum) + Convert.ToDecimal(tmp)).ToString());
-
-            SubLabel.Text = string.Format("{0} {1} {2} =", sum, sign, tmp);
-            DisplayInput();
-        }
-
-        public void AddStatus()
+        public void Addition()
         {
             //TODO add
-            action = Add;
-            sign = "+";
-            SubLabel.Text = string.Format("{0} {1}", st.Peek(), sign);
-            st.Push(st.Peek());
+            Operator = "+";
+            var sum = Convert.ToDouble(ValueStack.Pop());
+            var input = 0.0;
+            try
+            {
+                input = Convert.ToDouble(ValueStack.Pop());
+            }catch(Exception ex) { 
+            }
+
+            sum += input;
+            ValueStack.Push(sum.ToString());
+            Process.Text = string.Format("{0} {1}", ValueStack.Peek(), Operator);
+            currentPattern = clearPattern;
+            DisplayOutput(ValueStack.Peek());
+
+            NewInputAction = PushNewInput;
         }
 
-        public void Minus()
-        {
-            var tmp = st.Pop();
-            var sum = st.Pop();
-            st.Push((Convert.ToDecimal(sum) - Convert.ToDecimal(tmp)).ToString());
-            st.Push(tmp);
 
-            SubLabel.Text = string.Format("{0} {1} {2} =", sum, sign, tmp);
-            DisplayInput();
-        }
-
-        public void MinusStatus()
+        public void Subtraction()
         {
             //TODO minus
-            action = Minus;
-            sign = "-";
-            SubLabel.Text = string.Format("{0} {1}", st.Peek(), sign);
-            st.Push(st.Peek());
         }
 
-        public void MultipleStatus()
+        public void Multiplication()
         {
             // TODO multiple
 
         }
 
-        public void DivideStatus()
+        public void Division()
         {
             // TODO divide
         }
 
         public void Clear()
         {
-            st.Clear();
-            st.Push("0");
-            SubLabel.Text = "";
-            DisplayInput();
+            ValueStack.Clear();
+            ValueStack.Push(Zero);
+            Process.Text = "";
+            DisplayOutput(ValueStack.Peek());
         }
 
-        public void Undo()
+        public void ClearEntry()
         {
             // TODO undo
         }
 
         public void Backspace()
         {
-            var tmp = st.Pop();
             string pattern = @"(^$)|(^\-$)";
-            string match = Regex.Replace(tmp.Substring(0, Math.Max(tmp.Length - 1, 0)), pattern, "0");
-            st.Push(match);
-            DisplayInput();
+            var input = ValueStack.Pop();
+            input = Regex.Replace(input.Substring(0, Math.Max(input.Length - 1, 0)), pattern, "0");
+            ValueStack.Push(input);
+            DisplayOutput(input);
         }
 
-        public void Switch()
+        public void Negate()
         {
-            var tmp = st.Pop();
-            st.Push((-Convert.ToDecimal(tmp)).ToString());
-            DisplayInput();
+            var input = ValueStack.Pop();
+            input = (-Convert.ToDecimal(input)).ToString();
+            ValueStack.Push(input);
+            DisplayOutput(input);
         }
 
-        public void Point()
+        public void DecimalPoint()
         {
-            var tmp = st.Pop();
-            List<string> list = new List<string>(tmp.Split('.'));
-            list.Add("");
-
-            for (var i = list.Count - 1; i > 1; i--)
+            NewInputAction();
+            var input = ValueStack.Pop();
+            input += ".";
+            var pattern = @"\.";
+            MatchCollection matches = Regex.Matches(input, pattern);
+            for (var i = matches.Count-1; i>0; i--)
             {
-                list[1] += list[i];
-                list.RemoveAt(i);
+                input = input.Remove(matches[i].Index, 1);
             }
-            st.Push(string.Join(".", list));
+            ValueStack.Push(input);
+            DisplayOutput(input);
 
-            DisplayInput();
+
+            NewInputAction = idle;
         }
 
-        public void Result()
+        public void Equals()
         {
             // TODO result
-            action();
+            var sum = Convert.ToDouble(ValueStack.Pop());
+            var input = 0.0;
+            try
+            {
+                input = Convert.ToDouble(ValueStack.Pop());
+            }
+            catch(Exception ex) {
+                input = sum;
+            }
+            Process.Text = string.Format("{0} {1} {2} =", sum, Operator, input);
+            sum += input;
+            ValueStack.Push(sum.ToString());
+            DisplayOutput(ValueStack.Peek());
+            NewInputAction = Clear;
         }
 
 

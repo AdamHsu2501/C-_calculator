@@ -66,22 +66,22 @@ namespace MyCalculator
 
         private void addBtn_Click(object sender, EventArgs e)
         {
-            calculator.AddStatus();
+            calculator.Addition();
         }
 
         private void minusBtn_Click(object sender, EventArgs e)
         {
-            calculator.MinusStatus();
+            calculator.Subtraction();
         }
 
         private void multipliedBtn_Click(object sender, EventArgs e)
         {
-            calculator.MultipleStatus();
+            calculator.Multiplication();
         }
 
         private void dividedBtn_Click(object sender, EventArgs e)
         {
-            calculator.DivideStatus();
+            calculator.Division();
         }
 
         private void cBtn_Click(object sender, EventArgs e)
@@ -91,7 +91,7 @@ namespace MyCalculator
 
         private void ceBtn_Click(object sender, EventArgs e)
         {
-            calculator.Undo();
+            calculator.ClearEntry();
         }
 
         private void backspaceBtn_Click(object sender, EventArgs e)
@@ -101,17 +101,17 @@ namespace MyCalculator
 
         private void switchBtn_Click(object sender, EventArgs e)
         {
-            calculator.Switch();
+            calculator.Negate();
         }
 
         private void pointBtn_Click(object sender, EventArgs e)
         {
-            calculator.Point();
+            calculator.DecimalPoint();
         }
 
         private void equalBtn_Click(object sender, EventArgs e)
         {
-            calculator.Result();
+            calculator.Equals();
         }
     }
 }
