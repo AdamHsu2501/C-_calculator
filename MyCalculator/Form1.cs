@@ -1,115 +1,90 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace MyCalculator
 {
     public partial class Form1 : Form
     {
-        Calculator calculator;
+        Stack<string> InputStack = new Stack<string>();
+
+        UIManager UIManager;
+        OperandButton OperandButton;
+        BackspaceButton BackspaceButton;
+        NegateButton NegateButton;
+        ClearButton ClearButton;
+        ClearEntryButton ClearEntryButton;
+        OperatorButton OperatorButton;
+        EqualsButton EqualsButton;
+
+
         public Form1()
         {
             InitializeComponent();
-            calculator = new Calculator(mainLabel, subLabel);
+            UIManager = new UIManager(mainLabel, subLabel, InputStack);
+            OperandButton = new OperandButton();
+            BackspaceButton = new BackspaceButton();
+            NegateButton = new NegateButton();
+            ClearButton = new ClearButton();
+            ClearEntryButton = new ClearEntryButton();
+            OperatorButton = new OperatorButton();
+            EqualsButton = new EqualsButton();
         }
 
         private void zeroBtn_Click(object sender, EventArgs e)
         {
-            calculator.Append("0");
-        }
+            string s = (sender as Button).Text;
+            MatchCollection matches;
 
-        private void oneBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Append("1");
-        }
+            string operandPattern = @"^[\d|\.]$";
+            matches = Regex.Matches(s, operandPattern);
+            foreach(object match in matches)
+            {
+                OperandButton.Click(UIManager, s);
+            }
 
-        private void twoBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Append("2");
-        }
+            string operatorPattern = @"^[\+|\-|\*|\/]$";
+            matches = Regex.Matches(s, operatorPattern);
+            foreach (object match in matches)
+            {
+                OperatorButton.Click(UIManager, s);
+            }
 
-        private void threeBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Append("3");
-        }
+            string clearPattern = cBtn.Text;
+            matches = Regex.Matches(s, clearPattern);
+            foreach(object match in matches)
+            {
+                ClearButton.Click(UIManager, s);
+            }
 
-        private void fourBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Append("4");
-        }
+            string clearEntryPattern = ceBtn.Text;
+            matches = Regex.Matches(s, clearEntryPattern);
+            foreach (object match in matches)
+            {
+                ClearEntryButton.Click(UIManager, s);
+            }
 
-        private void fiveBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Append("5");
-        }
+            string backspacePattern = backspaceBtn.Text;
+            matches = Regex.Matches(s, backspacePattern);
+            foreach (object match in matches)
+            {
+                BackspaceButton.Click(UIManager, s);
+            }
+         
+            string nagatePattern = switchBtn.Text;
+            matches = Regex.Matches(s, nagatePattern);
+            foreach (object match in matches)
+            {
+                NegateButton.Click(UIManager, s);
+            }
 
-        private void sixBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Append("6");
-        }
-
-        private void sevenBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Append("7");
-        }
-
-        private void eightBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Append("8");
-        }
-
-        private void nineBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Append("9");
-        }
-
-        private void addBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Addition();
-        }
-
-        private void minusBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Subtraction();
-        }
-
-        private void multipliedBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Multiplication();
-        }
-
-        private void dividedBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Division();
-        }
-
-        private void cBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Clear();
-        }
-
-        private void ceBtn_Click(object sender, EventArgs e)
-        {
-            calculator.ClearEntry();
-        }
-
-        private void backspaceBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Backspace();
-        }
-
-        private void switchBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Negate();
-        }
-
-        private void pointBtn_Click(object sender, EventArgs e)
-        {
-            calculator.DecimalPoint();
-        }
-
-        private void equalBtn_Click(object sender, EventArgs e)
-        {
-            calculator.Equals();
+            string equalsPattern = equalBtn.Text;
+            matches = Regex.Matches(s, equalsPattern);
+            foreach (object match in matches)
+            {
+                EqualsButton.Click(UIManager, s);
+            }
         }
     }
 }
