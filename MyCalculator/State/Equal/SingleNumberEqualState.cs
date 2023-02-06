@@ -11,7 +11,7 @@
         /// <param name="context">CalculatorContext</param>
         public SingleNumberEqualState(CalculatorContext context) : base(context)
         {
-            Context.Label.Text = "Single Number Equal State";
+            Context.StateName = "Single Number Equal State";
         }
 
         /// <summary>

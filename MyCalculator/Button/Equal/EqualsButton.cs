@@ -12,7 +12,7 @@
         /// <param name="value">String type input value</param>
         public override void Click(CalculatorContext context, string value)
         {
-            context.HnadleEqual(value);
+            context.HandleEqual(value);
         }
     }
 }

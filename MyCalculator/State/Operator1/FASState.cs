@@ -11,7 +11,7 @@
         /// <param name="context">CalculatorContext</param>
         public FASState(CalculatorContext context) : base(context)
         {
-            Context.Label.Text = "F AS State";
+            Context.StateName = "F AS State";
         }
 
         /// <summary>

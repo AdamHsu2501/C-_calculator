@@ -12,8 +12,8 @@ namespace MyCalculator
         {
             InitializeComponent();
 
-            Context = new CalculatorContext(modeLabel);
-            UIManager = new UIManager(mainLabel, subLabel);
+            Context = new CalculatorContext();
+            UIManager = new UIManager(mainLabel, subLabel, modeLabel);
             button0.Tag = new OperandButton();
             button1.Tag = new OperandButton();
             button2.Tag = new OperandButton();
@@ -46,7 +46,7 @@ namespace MyCalculator
             BaseButton button = (BaseButton)((Button)sender).Tag;
             button.Click(Context, text);
 
-            UIManager.Display(Context.GetFormula(), Context.GetCurrentValue());
+            UIManager.Display(Context.GetFormula(), Context.GetCurrentValue(), Context.StateName);
         }
     }
 }

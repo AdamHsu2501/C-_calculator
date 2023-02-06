@@ -1,4 +1,6 @@
-﻿namespace MyCalculator
+﻿using System;
+
+namespace MyCalculator
 {
     /// <summary>
     /// F State of CalculatorContext
@@ -11,7 +13,7 @@
         /// <param name="context">CalculatorContext</param>
         public FState(CalculatorContext context) : base(context)
         {
-            Context.Label.Text = "F state";
+            Context.StateName = "F state";
         }
 
         /// <summary>
@@ -67,6 +69,10 @@
         protected override void DoEqual(string sign)
         {
             Context.ClearFormula();
+            string currentValue = Context.PopValue();
+            currentValue = Convert.ToDouble(currentValue).ToString();
+            Context.AddValue(currentValue);
+
             Context.AddFormula(Context.GetCurrentValue());
             Context.AddFormula(sign);
         }

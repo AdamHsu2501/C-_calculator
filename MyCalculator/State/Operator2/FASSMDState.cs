@@ -11,7 +11,7 @@
         /// <param name="context">CalculatorContext</param>
         public FASSMDState(CalculatorContext context) : base(context)
         {
-            Context.Label.Text = "F AS S MD State";
+            Context.StateName = "F AS S MD State";
         }
 
         /// <summary>

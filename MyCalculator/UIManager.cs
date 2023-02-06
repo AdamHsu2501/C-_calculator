@@ -18,14 +18,22 @@ namespace MyCalculator
         private Label ProcessLabel;
 
         /// <summary>
+        /// Title label
+        /// </summary>
+        private Label TitleLabel;
+
+
+        /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="outputLabel">Main label class</param>
-        /// <param name="processLabel">Processs label class</param>
-        public UIManager(Label outputLabel, Label processLabel)
+        /// <param name="outputLabel">Main label</param>
+        /// <param name="processLabel">Processs label</param>
+        /// <param name="titleLabel">Title label </param>
+        public UIManager(Label outputLabel, Label processLabel, Label titleLabel)
         {
             OutputLabel = outputLabel;
             ProcessLabel = processLabel;
+            TitleLabel = titleLabel;
         }
 
         /// <summary>
@@ -33,10 +41,11 @@ namespace MyCalculator
         /// </summary>
         /// <param name="formula">String of formula</param>
         /// <param name="value">String of sum value</param>
-        public void Display(string formula, string value)
+        public void Display(string formula, string value, string title)
         {
             ProcessLabel.Text = formula;
             OutputLabel.Text = value;
+            TitleLabel.Text = title;
         }
     }
 }

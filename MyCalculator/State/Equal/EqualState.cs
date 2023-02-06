@@ -11,7 +11,7 @@
         /// <param name="context">CalculatorContext</param>
         public EqualState(CalculatorContext context) : base(context)
         {
-            Context.Label.Text = "Equal state";
+            Context.StateName = "Equal state";
         }
 
         /// <summary>

@@ -39,18 +39,16 @@ namespace MyCalculator
         private OutputFormat OutputFormat;
 
         /// <summary>
-        /// Label display current state
+        /// Current state name
         /// </summary>
-        public Label Label { get; set; }
+        public string StateName { get; set; }
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="label">Display state label</param>
-        public CalculatorContext(Label label)
+        public CalculatorContext()
         {
-            Label = label;
-            Label.Text = "Start";
             OutputFormat = new OutputFormat();
             Init();
             SetState(new InitialState(this));
@@ -213,7 +211,7 @@ namespace MyCalculator
         /// Handle equal
         /// </summary>
         /// <param name="sign">Equal sign</param>
-        public void HnadleEqual(string sign)
+        public void HandleEqual(string sign)
         {
             State.HandleEqual(sign);
         }

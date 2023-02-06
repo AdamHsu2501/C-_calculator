@@ -11,7 +11,7 @@
         /// <param name="context">CalculatorContext</param>
         public InitialState(CalculatorContext context) : base(context)
         {
-            Context.Label.Text = "Initial state";
+            Context.StateName = "Initial state";
         }
 
         /// <summary>
