@@ -1,17 +1,18 @@
 ﻿namespace MyCalculator
 {
     /// <summary>
-    /// Button Base class
+    /// Negate button
     /// </summary>
-    public class BaseButton
+    public class NegateButton : BaseButton
     {
         /// <summary>
         /// Button click method
         /// </summary>
-        /// <param name="manager">UIManager class</param>
+        /// <param name="context">CalculatorContext</param>
         /// <param name="value">String type input value</param>
-        public virtual void Click(UIManager manager, string value)
+        public override void Click(CalculatorContext context, string value)
         {
+            context.HandleNegative();
         }
     }
 }

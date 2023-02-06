@@ -8,11 +8,11 @@
         /// <summary>
         /// Button click method
         /// </summary>
-        /// <param name="manager">UIManager class</param>
+        /// <param name="context">CalculatorContext</param>
         /// <param name="value">String type input value</param>
-        public override void Click(UIManager manager, string value)
+        public override void Click(CalculatorContext context, string value)
         {
-            manager.Init();
+            context.HandleClear();
         }
     }
 }

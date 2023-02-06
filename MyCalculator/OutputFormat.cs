@@ -5,14 +5,14 @@ namespace MyCalculator
     /// <summary>
     /// Output format class
     /// </summary>
-    public static class OutputFormat
+    public class OutputFormat
     {
         /// <summary>
         /// Output format
         /// </summary>
         /// <param name="s">String input</param>
         /// <returns>Formal output</returns>
-        public static string Format(string s)
+        public string Format(string s)
         {
             s = CanNotDivideByZero(
                     ConvertEmptyToZero(
@@ -35,7 +35,7 @@ namespace MyCalculator
         /// </summary>
         /// <param name="s">String input</param>
         /// <returns>Formal output</returns>
-        private static string RemoveLeadingZeros(string s)
+        private string RemoveLeadingZeros(string s)
         {
             string pattern = @"^0+(?!\.)";
             s = Regex.Replace(s, pattern, "");
@@ -47,7 +47,7 @@ namespace MyCalculator
         /// </summary>
         /// <param name="s">String input</param>
         /// <returns>Formal output</returns>
-        private static string RemoveRepeatDecimalPoints(string s)
+        private string RemoveRepeatDecimalPoints(string s)
         {
             string pattern = @"\.";
             MatchCollection matches = Regex.Matches(s, pattern);
@@ -64,9 +64,9 @@ namespace MyCalculator
         /// </summary>
         /// <param name="s">String input</param>
         /// <returns>Formal output</returns>
-        private static string ConvertEmptyToZero(string s)
+        private string ConvertEmptyToZero(string s)
         {
-            string pattern = @"^[-]?$";
+            string pattern = @"^-?0?$";
             s = Regex.Replace(s, pattern, "0");
 
             return s;
@@ -77,7 +77,7 @@ namespace MyCalculator
         /// </summary>
         /// <param name="s">String input</param>
         /// <returns>Formal output</returns>
-        private static string RemoveCommas(string s)
+        private string RemoveCommas(string s)
         {
             string pattern = @",";
             s = Regex.Replace(s, pattern, "");
@@ -90,7 +90,7 @@ namespace MyCalculator
         /// </summary>
         /// <param name="s">String input</param>
         /// <returns>Formal output</returns>
-        private static string AddCommas(string s)
+        private string AddCommas(string s)
         {
             string pattern = @"([-]?\d)(?=(\d{3})+$)";
             string[] arr = s.Split('.');
@@ -105,7 +105,7 @@ namespace MyCalculator
         /// </summary>
         /// <param name="s">String input</param>
         /// <returns>Formal output</returns>
-        private static string CanNotDivideByZero(string s)
+        private string CanNotDivideByZero(string s)
         {
             string pattern = @"∞";
             s = Regex.Replace(s, pattern, "無法除以零");

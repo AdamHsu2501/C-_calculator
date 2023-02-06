@@ -46,27 +46,49 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EqualsButton.cs" />
-    <Compile Include="OperatorButton.cs" />
-    <Compile Include="BackspaceButton.cs" />
-    <Compile Include="BaseButton.cs" />
-    <Compile Include="ClearButton.cs" />
-    <Compile Include="ClearEntryButton.cs" />
+    <Compile Include="Button\Operand\OperandButton.cs" />
+    <Compile Include="Button\Operand\SquareRootButton.cs" />
+    <Compile Include="Button\Operator\AdditionButton.cs" />
+    <Compile Include="Arithmetic\Addition.cs" />
+    <Compile Include="Arithmetic\Arithmetic.cs" />
+    <Compile Include="Button\Operator\DivisionButton.cs" />
+    <Compile Include="Button\Operator\MultiplicationButton.cs" />
+    <Compile Include="Button\Operator\SubtractionButton.cs" />
+    <Compile Include="State\CalculatorContext.cs" />
+    <Compile Include="State\BaseState.cs" />
+    <Compile Include="Button\Equal\EqualsButton.cs" />
+    <Compile Include="Button\Operand\BackspaceButton.cs" />
+    <Compile Include="Button\BaseButton.cs" />
+    <Compile Include="Button\Reset\ClearButton.cs" />
+    <Compile Include="Button\Operand\ClearEntryButton.cs" />
     <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="NegateButton.cs" />
-    <Compile Include="OperandButton.cs" />
+    <Compile Include="Button\Operand\NegateButton.cs" />
     <Compile Include="OutputFormat.cs" />
     <Compile Include="Program.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Arithmetic\Division.cs" />
+    <Compile Include="State\Equal\EqualState.cs" />
+    <Compile Include="State\Equal\SingleNumberEqualState.cs" />
+    <Compile Include="State\Operator2\FASSASState.cs" />
+    <Compile Include="State\Value3\FASSMDTState.cs" />
+    <Compile Include="State\Operator2\FASSMDState.cs" />
+    <Compile Include="State\Value2\FASSState.cs" />
+    <Compile Include="State\Operator1\FASState.cs" />
+    <Compile Include="State\Value2\FMDSState.cs" />
+    <Compile Include="State\Operator1\FMDState.cs" />
+    <Compile Include="State\Value1\FState.cs" />
+    <Compile Include="State\Init\InitialState.cs" />
+    <Compile Include="Arithmetic\Multiplication.cs" />
+    <Compile Include="Arithmetic\Subtraction.cs" />
     <Compile Include="UIManager.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -94,5 +116,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
