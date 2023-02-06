@@ -43,7 +43,7 @@ namespace MyCalculator
         private void button_Click(object sender, EventArgs e)
         {
             string text = (sender as Button).Text;
-            var button = (BaseButton)((Button)sender).Tag;
+            BaseButton button = (BaseButton)((Button)sender).Tag;
             button.Click(Context, text);
 
             UIManager.Display(Context.GetFormula(), Context.GetCurrentValue());
