@@ -22,7 +22,6 @@ namespace MyCalculator
         /// </summary>
         private Label TitleLabel;
 
-
         /// <summary>
         /// Constructor
         /// </summary>
@@ -41,6 +40,7 @@ namespace MyCalculator
         /// </summary>
         /// <param name="formula">String of formula</param>
         /// <param name="value">String of sum value</param>
+        /// <param name="title">title  of current state</param>
         public void Display(string formula, string value, string title)
         {
             ProcessLabel.Text = formula;

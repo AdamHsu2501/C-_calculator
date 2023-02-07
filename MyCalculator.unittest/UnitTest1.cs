@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MyCalculator.unittest
@@ -6,78 +7,97 @@ namespace MyCalculator.unittest
     [TestClass]
     public class UnitTest1
     {
+
         [TestMethod]
         public void TestFState()
         {
-            Assert.AreEqual(Calculator("5="), "5");
-            Assert.AreEqual(Calculator("5.="), "5");
-            Assert.AreEqual(Calculator("-5="), "-5");
+            CheckResult("5=", "5=", "5");
+            CheckResult("5.=", "5=", "5");
+            CheckResult("5±=", "-5=", "-5");
         }
 
         [TestMethod]
         public void TestFASState()
         {
-            Assert.AreEqual(Calculator("5+="), "10");
-            Assert.AreEqual(Calculator("3-="), "0");
+            CheckResult("5+=", "5+5=", "10");
+            CheckResult("3-=", "3-3=", "0");
         }
 
         [TestMethod]
         public void TestFMDState()
         {
-            Assert.AreEqual(Calculator("5*="), "25");
-            Assert.AreEqual(Calculator("3/="), "1");
+            CheckResult("5*=", "5*5=", "25");
+            CheckResult("3/=", "3/3=", "1");
         }
 
         [TestMethod]
         public void TestFASSState()
         {
-            Assert.AreEqual(Calculator("5+7="), "12");
-            Assert.AreEqual(Calculator("3-9="), "-6");
+            CheckResult("5+7=", "5+7=", "12");
+            CheckResult("3-9=", "3-9=", "-6");
         }
 
         [TestMethod]
         public void TestFMDSState()
         {
-            Assert.AreEqual(Calculator("5*7="), "35");
-            Assert.AreEqual(Calculator("9/3="), "3");
+            CheckResult("5*7=", "5*7=", "35");
+            CheckResult("9/3=", "9/3=", "3");
         }
 
         [TestMethod]
         public void TestFASSASState()
         {
-            Assert.AreEqual(Calculator("5+7+="), "19");
-            Assert.AreEqual(Calculator("5+7-="), "5");
-            Assert.AreEqual(Calculator("5-7+="), "5");
-            Assert.AreEqual(Calculator("5-7-="), "-9");
+            CheckResult("5+7+=", "5+7+7=", "19");
+            CheckResult("5+7-=", "5+7-7=", "5");
+            CheckResult("5-7+=", "5-7+7=", "5");
+            CheckResult("5-7-=", "5-7-7=", "-9");
         }
 
         [TestMethod]
         public void TestFASSMDState()
         {
-            Assert.AreEqual(Calculator("5+7*="), "54");
-            Assert.AreEqual(Calculator("5+7/="), "6");
-            Assert.AreEqual(Calculator("5-7*="), "-44");
-            Assert.AreEqual(Calculator("5-7/="), "4");
+            CheckResult("5+7*=", "5+7*7=", "54");
+            CheckResult("5+7/=", "5+7/7=", "6");
+            CheckResult("5-7*=", "5-7*7=", "-44");
+            CheckResult("5-7/=", "5-7/7=", "4");
         }
 
         [TestMethod]
         public void TestFASSMDTState()
         {
-            Assert.AreEqual(Calculator("5+7*9="), "68");
-            Assert.AreEqual(Calculator("5+9/3="), "8");
-            Assert.AreEqual(Calculator("5-7*9="), "-58");
-            Assert.AreEqual(Calculator("5-9/3="), "2");
+            CheckResult("5+7*9=", "5+7*9=", "68");
+            CheckResult("5+9/3=", "5+9/3=", "8");
+            CheckResult("5-7*9=", "5-7*9=", "-58");
+            CheckResult("5-9/3=", "5-9/3=", "2");
         }
-        
+
         [TestMethod]
         public void Test1()
         {
-            Assert.AreEqual(Calculator("9+5-6*4/8+5*6-1/2+6="), "46.5");
+            CheckResult("9+5-6*4/8+5*6-1/2+6=", "9+5-6*4/8+5*6-1/2+6=", "46.5");
+            CheckResult("9/3*3-5+4*6-2=", "9/3*3-5+4*6-2=", "26");
         }
 
-        public string Calculator(string fomula)
+
+        public void CheckResult(string step, string formula, string answer)
         {
-            var cal = new CalculatorContext();
+            CalculatorContext cal = new CalculatorContext();
+            
+            Calculate(cal, step);
+
+            Assert.AreEqual(cal.GetCurrentValue(), answer);
+            Assert.AreEqual(Trim(cal.GetFormula()), formula);
+        }
+
+        public string Trim(string s)
+        {
+            var arr = s.Split(' ');
+            return string.Join("", arr);
+        }
+
+        public void Calculate(CalculatorContext cal, string fomula)
+        {
+            var arr = fomula.Split(' ');
 
             foreach (char c in fomula)
             {
@@ -112,12 +132,16 @@ namespace MyCalculator.unittest
                     case "=":
                         cal.HandleEqual(s);
                         break;
+                    case "±":
+                        cal.HandleNegative();
+                        break;
                     default:
                         Console.WriteLine("error " + s);
                         break;
                 }
+                Trace.WriteLine(s + " " + cal.GetCurrentValue());
+
             }
-            return cal.GetCurrentValue();
         }
     }
 }

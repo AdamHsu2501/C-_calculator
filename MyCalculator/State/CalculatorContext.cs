@@ -46,7 +46,6 @@ namespace MyCalculator
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="label">Display state label</param>
         public CalculatorContext()
         {
             OutputFormat = new OutputFormat();

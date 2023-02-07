@@ -24,6 +24,7 @@
             Context.AddFormula(Context.GetCurrentValue());
             Context.AddFormula(sign);
             Context.CalcOperator();
+            Context.AddOperator(op);
         }
 
         /// <summary>
