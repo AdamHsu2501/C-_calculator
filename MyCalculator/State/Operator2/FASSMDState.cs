@@ -63,12 +63,12 @@
         /// Handle Equal by custom method
         /// </summary>
         /// <param name="sign">Equal sign</param>
-        protected override void DoEqual(string sign)
+        protected override void DoEqual()
         {
             Context.AddValue(Context.GetCurrentValue());
             Context.AddFormula(Context.GetCurrentValue());
             Context.CalcOperator();
-            Context.CalcEqual(sign);
+            Context.CalcEqual();
         }
 
         /// <summary>
@@ -78,6 +78,24 @@
         protected override BaseState GetNextEqualState()
         {
             return new EqualState(Context);
+        }
+
+        protected override BaseState GetRollBackState()
+        {
+            return new FASSMDPState(Context);
+        }
+
+        protected override void DoLeftParenthesis()
+        {
+            
+        }
+
+        protected override void DoRightParenthesis()
+        {
+            Context.AddValue(Context.GetCurrentValue());
+            Context.AddFormula(Context.GetCurrentValue());
+            Context.CalcOperator();
+            Context.CalcOperator();
         }
     }
 }

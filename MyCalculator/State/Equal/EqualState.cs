@@ -42,7 +42,7 @@
             Context.Init(currentValue);
             Context.AddFormula(Context.GetCurrentValue());
             Context.AddFormula(sign);
-            Context.AddOperator(op);
+            Context.AddOperator(op, sign);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@
         /// Handle Equal by custom method
         /// </summary>
         /// <param name="sign">Equal sign</param>
-        protected override void DoEqual(string sign)
+        protected override void DoEqual()
         {
             Context.UpdateEqual();
         }
@@ -79,6 +79,19 @@
         protected override BaseState GetNextEqualState()
         {
             return this;
+        }
+
+        protected override BaseState GetRollBackState()
+        {
+            return new FState(Context);
+        }
+
+        protected override void DoLeftParenthesis()
+        {
+        }
+
+        protected override void DoRightParenthesis()
+        {
         }
     }
 }

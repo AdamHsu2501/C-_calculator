@@ -140,7 +140,6 @@ namespace MyCalculator.unittest
                         break;
                 }
                 Trace.WriteLine(s + " " + cal.GetCurrentValue());
-
             }
         }
     }

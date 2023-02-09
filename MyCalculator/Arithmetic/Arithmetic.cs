@@ -15,6 +15,8 @@ namespace MyCalculator
         /// <returns></returns>
         public string GetResult(string a, string b)
         {
+            Console.WriteLine(a + a.GetType());
+            Console.WriteLine(b + b.GetType());
             return DoAction(Convert.ToDouble(a), Convert.ToDouble(b)).ToString();
         }
 

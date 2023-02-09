@@ -19,9 +19,10 @@
         /// </summary>
         protected override void DoOperand()
         {
-            BaseArithmetic op = Context.PopOperator();
+            TreeNode op = Context.PopOperator();
             Context.CalcOperator();
-            Context.AddOperator(op);
+
+            Context.AddOperator(op.Operator, op.Label);
             Context.AddValue();
         }
 
@@ -66,17 +67,17 @@
         /// Handle Equal by custom method
         /// </summary>
         /// <param name="sign">Equal sign</param>
-        protected override void DoEqual(string sign)
+        protected override void DoEqual()
         {
             string currentValue = Context.GetCurrentValue();
             Context.AddFormula(Context.GetCurrentValue());
 
-            BaseArithmetic op = Context.PopOperator();
+            TreeNode op = Context.PopOperator();
 
             Context.CalcOperator();
-            Context.AddOperator(op);
+            Context.PushOperator(op);
             Context.AddValue(currentValue);
-            Context.CalcEqual(sign);
+            Context.CalcEqual();
         }
 
         /// <summary>
@@ -86,6 +87,31 @@
         protected override BaseState GetNextEqualState()
         {
             return new EqualState(Context);
+        }
+
+        protected override BaseState GetRollBackState()
+        {
+            return new FASPState(Context);
+        }
+
+        protected override void DoLeftParenthesis()
+        {
+            TreeNode op = Context.PopOperator();
+            Context.CalcOperator();
+            Context.PushOperator(op);
+        }
+
+        protected override void DoRightParenthesis()
+        {
+            string currentValue = Context.GetCurrentValue();
+            Context.AddFormula(Context.GetCurrentValue());
+
+            TreeNode op = Context.PopOperator();
+
+            Context.CalcOperator();
+            Context.PushOperator(op);
+            Context.AddValue(currentValue);
+            Context.CalcOperator();
         }
     }
 }

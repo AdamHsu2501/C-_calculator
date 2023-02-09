@@ -44,8 +44,8 @@
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.buttonMultiplication = new System.Windows.Forms.Button();
-            this.fractionBtn = new System.Windows.Forms.Button();
-            this.powerBtn = new System.Windows.Forms.Button();
+            this.buttonLeftParenthesis = new System.Windows.Forms.Button();
+            this.buttonRightParenthesis = new System.Windows.Forms.Button();
             this.buttonSquareRoot = new System.Windows.Forms.Button();
             this.buttonDivision = new System.Windows.Forms.Button();
             this.percentBtn = new System.Windows.Forms.Button();
@@ -227,23 +227,25 @@
             this.buttonMultiplication.UseVisualStyleBackColor = true;
             this.buttonMultiplication.Click += new System.EventHandler(this.button_Click);
             // 
-            // fractionBtn
+            // buttonLeftParenthesis
             // 
-            this.fractionBtn.Location = new System.Drawing.Point(12, 293);
-            this.fractionBtn.Name = "fractionBtn";
-            this.fractionBtn.Size = new System.Drawing.Size(75, 52);
-            this.fractionBtn.TabIndex = 16;
-            this.fractionBtn.Text = "¹⁄x";
-            this.fractionBtn.UseVisualStyleBackColor = true;
+            this.buttonLeftParenthesis.Location = new System.Drawing.Point(12, 293);
+            this.buttonLeftParenthesis.Name = "buttonLeftParenthesis";
+            this.buttonLeftParenthesis.Size = new System.Drawing.Size(75, 52);
+            this.buttonLeftParenthesis.TabIndex = 16;
+            this.buttonLeftParenthesis.Text = "(";
+            this.buttonLeftParenthesis.UseVisualStyleBackColor = true;
+            this.buttonLeftParenthesis.Click += new System.EventHandler(this.button_Click);
             // 
-            // powerBtn
+            // buttonRightParenthesis
             // 
-            this.powerBtn.Location = new System.Drawing.Point(93, 293);
-            this.powerBtn.Name = "powerBtn";
-            this.powerBtn.Size = new System.Drawing.Size(75, 52);
-            this.powerBtn.TabIndex = 17;
-            this.powerBtn.Text = "x²";
-            this.powerBtn.UseVisualStyleBackColor = true;
+            this.buttonRightParenthesis.Location = new System.Drawing.Point(93, 293);
+            this.buttonRightParenthesis.Name = "buttonRightParenthesis";
+            this.buttonRightParenthesis.Size = new System.Drawing.Size(75, 52);
+            this.buttonRightParenthesis.TabIndex = 17;
+            this.buttonRightParenthesis.Text = ")";
+            this.buttonRightParenthesis.UseVisualStyleBackColor = true;
+            this.buttonRightParenthesis.Click += new System.EventHandler(this.button_Click);
             // 
             // buttonSquareRoot
             // 
@@ -443,8 +445,8 @@
             this.Controls.Add(this.percentBtn);
             this.Controls.Add(this.buttonDivision);
             this.Controls.Add(this.buttonSquareRoot);
-            this.Controls.Add(this.powerBtn);
-            this.Controls.Add(this.fractionBtn);
+            this.Controls.Add(this.buttonRightParenthesis);
+            this.Controls.Add(this.buttonLeftParenthesis);
             this.Controls.Add(this.buttonMultiplication);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.button8);
@@ -486,8 +488,8 @@
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button buttonMultiplication;
-        private System.Windows.Forms.Button fractionBtn;
-        private System.Windows.Forms.Button powerBtn;
+        private System.Windows.Forms.Button buttonLeftParenthesis;
+        private System.Windows.Forms.Button buttonRightParenthesis;
         private System.Windows.Forms.Button buttonSquareRoot;
         private System.Windows.Forms.Button buttonDivision;
         private System.Windows.Forms.Button percentBtn;

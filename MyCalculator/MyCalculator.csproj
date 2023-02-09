@@ -12,6 +12,21 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,6 +69,8 @@
     <Compile Include="Button\Operator\DivisionButton.cs" />
     <Compile Include="Button\Operator\MultiplicationButton.cs" />
     <Compile Include="Button\Operator\SubtractionButton.cs" />
+    <Compile Include="Button\Parenthesis\LeftParenthesisButton.cs" />
+    <Compile Include="Button\Parenthesis\RightParenthesisButton.cs" />
     <Compile Include="State\CalculatorContext.cs" />
     <Compile Include="State\BaseState.cs" />
     <Compile Include="Button\Equal\EqualsButton.cs" />
@@ -78,7 +95,11 @@
     <Compile Include="Arithmetic\Division.cs" />
     <Compile Include="State\Equal\EqualState.cs" />
     <Compile Include="State\Equal\SingleNumberEqualState.cs" />
+    <Compile Include="State\Value2\FASPState.cs" />
+    <Compile Include="State\Value3\FASSMDPState.cs" />
+    <Compile Include="State\Value2\FMDPState.cs" />
     <Compile Include="State\Operator2\FASSASState.cs" />
+    <Compile Include="TreeNode.cs" />
     <Compile Include="State\Value3\FASSMDTState.cs" />
     <Compile Include="State\Operator2\FASSMDState.cs" />
     <Compile Include="State\Value2\FASSState.cs" />
@@ -116,6 +137,17 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 與 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

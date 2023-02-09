@@ -21,10 +21,12 @@
         /// <param name="sign">string operator</param>
         protected override void DoOperator(BaseArithmetic op, string sign)
         {
-            Context.AddFormula(Context.GetCurrentValue());
+            Context.AddFormula(Context.GetValueResult());
             Context.AddFormula(sign);
+
             Context.CalcOperator();
-            Context.AddOperator(op);
+
+            Context.AddOperator(op, sign);
         }
 
         /// <summary>
@@ -43,6 +45,19 @@
         protected override BaseState GetNextOpSState()
         {
             return new FASState(Context);
+        }
+
+        protected override BaseState GetRollBackState()
+        {
+            return new FMDPState(Context);
+        }
+
+        protected override void DoLeftParenthesis()
+        {
+            Context.CalcOperator();
+
+            Context.AddFormula("*");
+            Context.AddOperator(new Multiplication(), "*");
         }
     }
 }

@@ -39,9 +39,10 @@ namespace MyCalculator
         /// <param name="sign">string operator</param>
         protected override void DoOperator(BaseArithmetic op, string sign)
         {
-            Context.AddFormula(Context.GetCurrentValue());
+            Context.AddFormula(Context.GetValueResult());
             Context.AddFormula(sign);
-            Context.AddOperator(op);
+
+            Context.AddOperator(op, sign);
         }
 
         /// <summary>
@@ -66,15 +67,14 @@ namespace MyCalculator
         /// Handle Equal by custom method
         /// </summary>
         /// <param name="sign">Equal sign</param>
-        protected override void DoEqual(string sign)
+        protected override void DoEqual()
         {
             Context.ClearFormula();
-            string currentValue = Context.PopValue();
+            string currentValue = Context.PopValue().Label;
             currentValue = Convert.ToDouble(currentValue).ToString();
             Context.AddValue(currentValue);
 
             Context.AddFormula(Context.GetCurrentValue());
-            Context.AddFormula(sign);
         }
 
         /// <summary>
@@ -84,6 +84,23 @@ namespace MyCalculator
         protected override BaseState GetNextEqualState()
         {
             return new SingleNumberEqualState(Context);
+        }
+
+        protected override BaseState GetRollBackState()
+        {
+            return new FMDPState(Context);
+        }
+
+        protected override void DoLeftParenthesis()
+        {
+            Context.AddFormula(Context.GetCurrentValue());
+            Context.AddFormula("*");
+            Context.AddOperator(new Multiplication(), "*");
+        }
+
+        protected override void DoRightParenthesis()
+        {
+            Context.AddFormula(Context.GetCurrentValue());
         }
     }
 }

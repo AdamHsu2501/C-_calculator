@@ -37,10 +37,11 @@
         /// <param name="sign">string operator</param>
         protected override void DoOperator(BaseArithmetic op, string sign)
         {
-            Context.AddFormula(Context.GetCurrentValue());
+            Context.AddFormula(Context.GetValueResult());
             Context.AddFormula(sign);
+
             Context.CalcOperator();
-            Context.AddOperator(op);
+            Context.AddOperator(op, sign);
         }
 
         /// <summary>
@@ -65,11 +66,11 @@
         /// Handle Equal by custom method
         /// </summary>
         /// <param name="sign">Equal sign</param>
-        protected override void DoEqual(string sign)
+        protected override void DoEqual()
         {
-            Context.AddFormula(Context.GetCurrentValue());
+            Context.AddFormula(Context.GetValueResult());
             Context.CalcOperator();
-            Context.CalcEqual(sign);
+            Context.CalcEqual();
         }
 
         /// <summary>
@@ -79,6 +80,26 @@
         protected override BaseState GetNextEqualState()
         {
             return new EqualState(Context);
+        }
+
+        protected override BaseState GetRollBackState()
+        {
+            return new FASSMDPState(Context);
+        }
+
+        protected override void DoLeftParenthesis()
+        {
+            Context.CalcOperator();
+
+            Context.AddOperator(new Multiplication(), "*");
+            Context.AddFormula("*");
+        }
+
+        protected override void DoRightParenthesis()
+        {
+            Context.AddFormula(Context.GetValueResult());
+            Context.CalcOperator();
+            Context.CalcOperator();
         }
     }
 }

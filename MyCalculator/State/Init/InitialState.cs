@@ -19,6 +19,7 @@
         /// </summary>
         protected override void DoOperand()
         {
+            Context.AddValue();
         }
 
         /// <summary>
@@ -39,7 +40,7 @@
         {
             Context.AddFormula(Context.GetCurrentValue());
             Context.AddFormula(sign);
-            Context.AddOperator(op);
+            Context.AddOperator(op, sign);
         }
 
         /// <summary>
@@ -64,10 +65,9 @@
         /// Handle Equal by custom method
         /// </summary>
         /// <param name="sign">Equal sign</param>
-        protected override void DoEqual(string sign)
+        protected override void DoEqual()
         {
             Context.AddFormula(Context.GetCurrentValue());
-            Context.AddFormula(sign);
         }
 
         /// <summary>
@@ -77,6 +77,20 @@
         protected override BaseState GetNextEqualState()
         {
             return new SingleNumberEqualState(Context);
+        }
+
+        protected override BaseState GetRollBackState()
+        {
+            return new FMDPState(Context);
+        }
+
+        protected override void DoLeftParenthesis()
+        {
+        }
+
+        protected override void DoRightParenthesis()
+        {
+            Context.AddFormula(Context.GetCurrentValue());
         }
     }
 }

@@ -34,6 +34,9 @@ namespace MyCalculator
             buttonMultiplication.Tag = new MultiplicationButton();
             buttonDivision.Tag = new DivisionButton();
 
+            buttonLeftParenthesis.Tag = new LeftParenthesisButton();
+            buttonRightParenthesis.Tag = new RightParenthesisButton();
+
             buttonClear.Tag = new ClearButton();
             buttonClearEntry.Tag = new ClearEntryButton();
 
@@ -46,7 +49,7 @@ namespace MyCalculator
             BaseButton button = (BaseButton)((Button)sender).Tag;
             button.Click(Context, text);
 
-            UIManager.Display(Context.GetFormula(), Context.GetCurrentValue(), Context.StateName);
+            UIManager.Display(Context.GetFormula(), Context.GetOutput(), Context.StateName);
         }
     }
 }

@@ -61,7 +61,7 @@ namespace MyCalculator
         public void HandleOperand(string value)
         {
             DoOperand();
-            string CurrentValue = Context.PopValue();
+            string CurrentValue = Context.PopValue().Label;
             Context.AddValue(CurrentValue + value);
             Context.SetState(GetNextOpdState());
         }
@@ -72,7 +72,7 @@ namespace MyCalculator
         public void HandleBackspace()
         {
             DoOperand();
-            string CurrentValue = Context.PopValue();
+            string CurrentValue = Context.PopValue().Label;
             int length = Math.Max(CurrentValue.Length - 1, 0);
             Context.AddValue(CurrentValue.Substring(0, length));
             Context.SetState(GetNextOpdState());
@@ -84,7 +84,7 @@ namespace MyCalculator
         public void HandleNegate()
         {
             DoOperand();
-            string CurrentValue = Context.PopValue();
+            string CurrentValue = Context.PopValue().Label;
             Context.AddValue((-Convert.ToDecimal(CurrentValue)).ToString());
             Context.SetState(GetNextOpdState());
         }
@@ -93,10 +93,10 @@ namespace MyCalculator
         /// Handle square root
         /// </summary>
         /// <param name="value">square root sign</param>
-        public void HandleSquareRoot(string value)
+        public void HandleSquareRoot()
         {
             DoOperand();
-            string CurrentValue = Context.PopValue();
+            string CurrentValue = Context.PopValue().Label;
             Context.AddValue(Math.Sqrt(Convert.ToDouble(CurrentValue)).ToString());
             Context.SetState(GetNextOpdState());
         }
@@ -146,7 +146,7 @@ namespace MyCalculator
         /// Handle Equal by custom method in child class
         /// </summary>
         /// <param name="sign">Equal sign</param>
-        protected abstract void DoEqual(string sign);
+        protected abstract void DoEqual();
 
         /// <summary>
         /// Next State after handling Equal
@@ -158,10 +158,35 @@ namespace MyCalculator
         /// Handle equal
         /// </summary>
         /// <param name="sign">Equal sign</param>
-        public void HandleEqual(string sign)
+        public void HandleEqual()
         {
-            DoEqual(sign);
+            DoEqual();
             Context.SetState(GetNextEqualState());
+        }
+
+        protected abstract BaseState GetRollBackState();
+
+        protected abstract void DoLeftParenthesis();
+
+        public void HandleLeftParenthesis()
+        {
+            DoLeftParenthesis();
+            Context.PushState(GetRollBackState());
+            Context.SetState(new InitialState(Context));
+        }
+
+        protected abstract void DoRightParenthesis();
+
+        public void HandleRightParenthesis()
+        {
+            for (int i = 0; i< Context.ParenthesisNum;)
+            {
+                DoRightParenthesis();
+                break;
+            }
+            var state = Context.PopState();
+            Console.WriteLine(state.ToString());
+            Context.SetState(state);
         }
     }
 }

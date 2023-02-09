@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MyCalculator
 {
@@ -16,12 +16,12 @@ namespace MyCalculator
         /// <summary>
         /// Storage values
         /// </summary>
-        private Stack<string> Values;
+        private Stack<TreeNode> Values;
 
         /// <summary>
         /// Storage Operators
         /// </summary>
-        private Stack<BaseArithmetic> Operators;
+        private Stack<TreeNode> Operators;
 
         /// <summary>
         /// Storage Formula
@@ -32,6 +32,11 @@ namespace MyCalculator
         /// Current state of state pattern
         /// </summary>
         private BaseState State;
+
+
+        private Stack<BaseState> StateStack;
+
+        public int ParenthesisNum { get; set; }
 
         /// <summary>
         /// Format value
@@ -69,9 +74,11 @@ namespace MyCalculator
         public void Init(string value = DefaultValue)
         {
             Formula = new List<string>();
-            Operators = new Stack<BaseArithmetic>();
-            Values = new Stack<string>();
+            Operators = new Stack<TreeNode>();
+            Values = new Stack<TreeNode>();
             AddValue(value);
+            StateStack = new Stack<BaseState>();
+            ParenthesisNum = 0;
         }
 
         /// <summary>
@@ -80,43 +87,61 @@ namespace MyCalculator
         /// <returns></returns>
         public string GetCurrentValue()
         {
-            return Values.Peek();
+            return Values.Peek().Label;
         }
+
+        //public void ConfirmValue()
+        //{
+        //    TreeNode node = Values.Peek();
+        //    node.Label = Convert.ToDouble(node.Label).ToString();
+        //}
 
         /// <summary>
         /// Push value to value stack
         /// </summary>
         /// <param name="value">Serial number</param>
-        public void AddValue(string value = DefaultValue)
+        public void PushValue(TreeNode node)
         {
-            Values.Push(OutputFormat.Format(value));
+            Values.Push(node);
         }
 
         /// <summary>
         /// Pop value from value stack
         /// </summary>
         /// <returns></returns>
-        public string PopValue()
+        public TreeNode PopValue()
         {
             return Values.Pop();
         }
 
-        /// <summary>
-        /// Push operator to operator stack
-        /// </summary>
-        /// <param name="op">BaseArithmetic</param>
-        public void AddOperator(BaseArithmetic op)
+        public void AddValue(string value = DefaultValue)
         {
-            Operators.Push(op);
+            TreeNode node = new TreeNode(OutputFormat.Format(value));
+            PushValue(node);
+        }
+
+        public void PushOperator(TreeNode node)
+        {
+            Operators.Push(node);
         }
 
         /// <summary>
         /// Pop operator from operator stack
         /// </summary>
         /// <returns></returns>
-        public BaseArithmetic PopOperator()
+        public TreeNode PopOperator()
         {
             return Operators.Pop();
+        }
+
+        /// <summary>
+        /// Push operator to operator stack
+        /// </summary>
+        /// <param name="op">BaseArithmetic</param>
+        public void AddOperator(BaseArithmetic op, string sign)
+        {
+            TreeNode node = new TreeNode(sign, op);
+            PushOperator(node);
         }
 
         /// <summary>
@@ -128,8 +153,8 @@ namespace MyCalculator
         {
             Formula[Formula.Count - 1] = sign;
 
-            Operators.Pop();
-            Operators.Push(op);
+            Operators.Peek().Label = sign;
+            Operators.Peek().Operator = op;
         }
 
         /// <summary>
@@ -154,10 +179,12 @@ namespace MyCalculator
         /// </summary>
         public void CalcOperator()
         {
-            string b = Values.Pop();
-            string a = Values.Pop();
-            BaseArithmetic op = Operators.Pop();
-            AddValue(op.GetResult(a, b));
+            TreeNode right = Values.Pop();
+            TreeNode left = Values.Pop();
+            TreeNode op = Operators.Pop();
+            op.Left = left;
+            op.Right = right;
+            PushValue(op);
         }
 
         /// <summary>
@@ -165,15 +192,18 @@ namespace MyCalculator
         /// and make sum value to the top of value stack
         /// </summary>
         /// <param name="sign">Equal sign</param>
-        public void CalcEqual(string sign)
+        public void CalcEqual()
         {
-            AddFormula(sign);
 
-            string b = Values.Pop();
-            string a = Values.Pop();
-            BaseArithmetic op = Operators.Peek();
-            AddValue(b);
-            AddValue(op.GetResult(a, b));
+            TreeNode right = PopValue();
+            TreeNode left = PopValue();
+            TreeNode op = Operators.Peek();
+
+            op.Left = left;
+            op.Right = right;
+
+            PushValue(right);
+            PushValue(op);
         }
 
         /// <summary>
@@ -182,11 +212,15 @@ namespace MyCalculator
         public void UpdateEqual()
         {
             Formula.RemoveRange(1, Formula.Count - 3);
-            string a = PopValue();
-            string b = GetCurrentValue();
-            BaseArithmetic op = Operators.Peek();
-            AddValue(op.GetResult(a, b));
-            Formula[0] = GetCurrentValue();
+
+            TreeNode left = PopValue();
+            TreeNode right = Values.Peek();
+            TreeNode op = Operators.Peek();
+
+            op.Left = left;
+            op.Right = right;
+            PushValue(op);
+            Formula[0] = Values.Peek().Label;
         }
 
         /// <summary>
@@ -196,6 +230,34 @@ namespace MyCalculator
         public string GetFormula()
         {
             return string.Join(" ", Formula);
+        }
+
+        public string GetValueResult()
+        {
+            return Values.Peek().GetResult();
+        }
+
+        public string GetOutput()
+        {
+            return OutputFormat.Format(GetValueResult());
+        }
+
+
+        public void PushState(BaseState state)
+        {
+            Console.WriteLine(state.ToString());
+            StateStack.Push(state);
+        }
+
+        public BaseState PopState()
+        {
+            return StateStack.Pop();
+        }
+
+
+        public int StateCount()
+        {
+            return StateStack.Count;
         }
 
         /// <summary>
@@ -212,7 +274,13 @@ namespace MyCalculator
         /// <param name="sign">Equal sign</param>
         public void HandleEqual(string sign)
         {
-            State.HandleEqual(sign);
+            int count = StateStack.Count - 1;
+            for (int i = 0; i < count; i++)
+            {
+                HandleRightParenthesis(")");
+            }
+            State.HandleEqual();
+            AddFormula(sign);
         }
 
         /// <summary>
@@ -275,7 +343,22 @@ namespace MyCalculator
         /// <param name="value">square root sign</param>
         public void HandleSquareRoot(string value)
         {
-            State.HandleSquareRoot(value);
+            AddFormula(string.Format("{0}({1})", value, GetCurrentValue()));
+            State.HandleSquareRoot();
+        }
+
+        public void HandleLeftParenthesis(string value)
+        {
+            State.HandleLeftParenthesis();
+            AddFormula(value);
+            ParenthesisNum++;
+        }
+
+        public void HandleRightParenthesis(string value)
+        {
+            State.HandleRightParenthesis();
+            AddFormula(value);
+            ParenthesisNum--;
         }
     }
 }
