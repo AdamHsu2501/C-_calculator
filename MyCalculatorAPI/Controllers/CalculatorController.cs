@@ -273,7 +273,6 @@ namespace MyCalculatorAPI.Controllers
         [HttpGet]
         public IHttpActionResult LeftParenthesis()
         {
-            System.Diagnostics.Trace.WriteLine("(");
             return DoAction(cal => cal.HandleLeftParenthesis());
         }
 
@@ -284,21 +283,26 @@ namespace MyCalculatorAPI.Controllers
         [HttpGet]
         public IHttpActionResult RightParenthesis()
         {
-            System.Diagnostics.Trace.WriteLine(")");
             return DoAction(cal => cal.HandleRightParenthesis());
         }
 
+        /// <summary>
+        /// Handle left Bracket
+        /// </summary>
+        /// <returns>IHttpActionResult</returns>
         [HttpGet]
         public IHttpActionResult LeftBracket()
         {
-            System.Diagnostics.Trace.WriteLine("[");
             return DoAction(cal => cal.HandleLeftBracket());
         }
 
+        /// <summary>
+        /// Handle right Bracket
+        /// </summary>
+        /// <returns>IHttpActionResult</returns>
         [HttpGet]
         public IHttpActionResult RightBracket()
         {
-            System.Diagnostics.Trace.WriteLine("]");
             return DoAction(cal => cal.HandleRightBracket());
         }
     }

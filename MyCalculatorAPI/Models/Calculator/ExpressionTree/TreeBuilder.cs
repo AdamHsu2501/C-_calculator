@@ -18,17 +18,17 @@ namespace MyCalculatorAPI
         public Stack<TreeNode> Values { get; set; }
 
         /// <summary>
-        /// Current operator tree node out of tree
+        /// TreeNode current operator
         /// </summary>
         public TreeNode CurrentOperator { get; set; }
 
         /// <summary>
-        /// Stack all Operators tree nodes
+        /// Stack TreeNode operators waiting to calculate
         /// </summary>
         public Stack<TreeNode> Operators { get; set; }
 
         /// <summary>
-        /// Stack right Parenthesis or brackets 
+        /// Stack TreeNode right Parenthesis and right brackets 
         /// </summary>
         public Stack<TreeNode> RightBrackets { get; set; }
 
@@ -55,7 +55,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Initial tree
+        /// Initial and Push zero to Stack Values
         /// </summary>
         /// <param name="value">Initial number value</param>
         public void Init(string value = "0")
@@ -68,7 +68,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Initial tree with last result
+        /// Initial and Push last result to Stack Values
         /// </summary>
         public void InitalWithResult()
         {
@@ -223,7 +223,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Handle clear entry
+        /// Reset the node value at the top of Stack Values
         /// </summary>
         public void HandleClearEntry()
         {
@@ -232,7 +232,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Handle number: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+        /// Appends the node to the right of the node at the top of Stack Values
         /// </summary>
         /// <param name="value">Number and decimal point</param>
         public void HandleNumber(string value)
@@ -242,7 +242,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Handle decimal point
+        /// Appends the node to the right of the node at the top of Stack Values
         /// </summary>
         public void HandleDecimalPoint()
         {
@@ -251,7 +251,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Handle backspace
+        /// Remove the tail node on the right side of the top node of Stack Values
         /// </summary>
         public void HandleBackspace()
         {
@@ -260,7 +260,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Handle negative 
+        /// Insert or Remove Negate node to the top node of Stack Values
         /// </summary>
         public void HandleNegate()
         {
@@ -269,7 +269,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Handle square root
+        /// Insert Square Root to the top node of Stack Values
         /// </summary>
         public void HandleSquareRoot()
         {
@@ -278,7 +278,9 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Handle Operator
+        /// 1.Compare CurrentOperater with the top node of Stack Operators
+        /// 2.Combine the top of Stack Operators with the top two nodes of Stack Values if CurrentOperator has a lower priority
+        /// 3.Push CurrentOperator to Stack Operators
         /// </summary>
         public void HandleOperator()
         {
@@ -287,7 +289,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Input list add value of peek node of values stack 
+        /// List Input add value of the top node of Stack Values
         /// </summary>
         public void InputAddValue()
         {
@@ -295,7 +297,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Value stack push peek node
+        /// Push the top node of Stack Values to Stack Values 
         /// </summary>
         public void PushPeekNode()
         {
@@ -303,7 +305,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Input list update operator sign
+        /// List Input update the latest CurrentOperator symbol
         /// </summary>
         public void InputUpdateOperator()
         {
@@ -311,7 +313,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Input list add operator sign
+        /// List Input add CurrentOperator symbol
         /// </summary>
         public void InputAddOperator()
         {
@@ -319,7 +321,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Set current operator to addition
+        /// Set CurrentOperator with addition TreeNode
         /// </summary>
         public void SetAddition()
         {
@@ -327,7 +329,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Set current operator to subtraction
+        /// Set CurrentOperator with subtraction TreeNode 
         /// </summary>
         public void SetSubtraction()
         {
@@ -335,7 +337,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Set current operator to multiplication
+        /// Set CurrentOperator with multiplication TreeNode 
         /// </summary>
         public void SetMultiplication()
         {
@@ -343,7 +345,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Set current operator to division
+        /// Set CurrentOperator with division TreeNode 
         /// </summary>
         public void SetDivision()
         {
@@ -365,19 +367,19 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Handle left parenthesis
+        /// 1.Stack Operators push TreeNode left parenthesis  
+        /// 2.List inputs add TreeNode left parenthesis value
+        /// 3.Stack RightBrackets push TreeNode right parenthesis 
         /// </summary>
         public void HandleLeftParenthesis()
         {
-            //TreeNode node = new LeftParenthesisNode();
-            //Operators.Push(node);
-            //Inputs.Add(node.Value);
-            //RightBrackets.Push(new RightParenthesisNode());
             DoLeftBracktes(new LeftParenthesisNode(), new RightParenthesisNode());
         }
 
         /// <summary>
-        /// Handle left parenthesis
+        /// 1.Stack Operators push TreeNode left bracket  
+        /// 2.List inputs add TreeNode left bracket value
+        /// 3.Stack RightBrackets push TreeNode right bracket 
         /// </summary>
         public void HandleLeftBrackets()
         {
@@ -385,7 +387,8 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Hnalde right parenthesis
+        /// Calculate the formula in parentheses
+        /// List Inputs add right bracket symbol
         /// </summary>
         public void HandleRightParenthesis()
         {
@@ -393,12 +396,13 @@ namespace MyCalculatorAPI
             {
                 Inputs.Add(RightBrackets.Peek().Value);
                 Calculate();
-                //Inputs.Add(new RightParenthesisNode().Value);
             }
         }
 
         /// <summary>
-        /// Handle equal
+        /// Calculate formula
+        /// List Inputs add right bracket symbol if RightBrackets is not empty
+        /// List Inputs add equal symbol
         /// </summary>
         public void HandleEqual()
         {
@@ -415,7 +419,7 @@ namespace MyCalculatorAPI
         /// <summary>
         /// Calculate Result
         /// </summary>
-        public void Calculate()
+        private void Calculate()
         {
             if (Operators.Count == 0)
             {
@@ -440,7 +444,7 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
-        /// Add right parenthesis
+        /// Append a right parenthesis to the right of the node
         /// </summary>
         /// <param name="node">TreeNode class</param>
         private void AddRightParenthesis(TreeNode node)
