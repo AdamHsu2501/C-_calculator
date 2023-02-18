@@ -24,7 +24,7 @@ namespace MyCalculatorAPI
         /// <param name="a">double value a</param>
         /// <param name="b">double value b</param>
         /// <returns>a / b</returns>
-        protected override double Calc(double a, double b)
+        protected override double Calculate(double a, double b)
         {
             return a / b;
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MyCalculatorAPI
 {
@@ -369,7 +368,7 @@ namespace MyCalculatorAPI
         {
             if (ParenthesisCount > 0)
             {
-                Calc();
+                Calculate();
                 Inputs.Add(new RightParenthesisNode().Value);
                 ParenthesisCount--;
             }
@@ -386,14 +385,14 @@ namespace MyCalculatorAPI
                 HandleRightParenthesis();
             }
 
-            Calc();
+            Calculate();
             Inputs.Add("=");
         }
 
         /// <summary>
         /// Calculate Result
         /// </summary>
-        public void Calc()
+        public void Calculate()
         {
             if (Operators.Count == 0)
             {
@@ -407,7 +406,7 @@ namespace MyCalculatorAPI
                 op.Right = Values.Pop();
                 op.Left = Values.Pop();
                 Values.Push(op);
-                Calc();
+                Calculate();
             }
             else
             {

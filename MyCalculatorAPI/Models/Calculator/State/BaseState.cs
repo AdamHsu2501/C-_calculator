@@ -24,7 +24,7 @@
         /// Set next state of state pattern
         /// </summary>
         /// <param name="state">Next state of state pattern</param>
-        public void SetState(BaseState state)
+        protected void SetState(BaseState state)
         {
             Context.State = state;
         }

@@ -24,7 +24,7 @@ namespace MyCalculatorAPI
         /// <returns></returns>
         public override string GetResult()
         {
-            return Calc(
+            return Calculate(
                     Convert.ToDouble(Left.GetResult()), 
                     Convert.ToDouble(Right.GetResult())
                 ).ToString();
@@ -36,6 +36,6 @@ namespace MyCalculatorAPI
         /// <param name="a">Double value a</param>
         /// <param name="b">Double value b</param>
         /// <returns></returns>
-        protected abstract double Calc(double a, double b);
+        protected abstract double Calculate(double a, double b);
     }
 }
