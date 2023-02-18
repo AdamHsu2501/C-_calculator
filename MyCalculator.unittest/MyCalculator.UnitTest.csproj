@@ -49,16 +49,19 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\CalculatorResult.cs" />
+    <Compile Include="Properties\OutputFormat.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MyCalculator\MyCalculator.csproj">
-      <Project>{ef18f2d9-c3dc-4089-a049-26e170b68810}</Project>
-      <Name>MyCalculator</Name>
+    <ProjectReference Include="..\MyCalculatorAPI\MyCalculatorAPI.csproj">
+      <Project>{5782a329-3c62-42a3-abb8-176f326e3299}</Project>
+      <Name>MyCalculatorAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

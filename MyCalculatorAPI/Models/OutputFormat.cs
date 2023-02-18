@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace MyCalculator
+namespace MyCalculatorAPI
 {
     /// <summary>
     /// Output format class
@@ -19,8 +19,11 @@ namespace MyCalculator
                         AddCommas(
                             RemoveCommas(
                                 RemoveRepeatDecimalPoints(
-                                    RemoveLeadingZeros(
-                                        s
+                                     AddLeadingZeros(
+                                        RemoveLeadingZeros(
+                                           
+                                            s
+                                        )
                                     )
                                 )
                             )
@@ -39,6 +42,15 @@ namespace MyCalculator
         {
             string pattern = @"^0+(?!\.)";
             s = Regex.Replace(s, pattern, "");
+            System.Console.WriteLine("RemoveLeadingZeros "+s );
+            return s;
+        }
+
+        private string AddLeadingZeros(string s)
+        {
+            string pattern = @"^\.";
+            s = Regex.Replace(s, pattern, "0" + s);
+            System.Console.WriteLine("AddLeadingZeros " + s );
             return s;
         }
 
@@ -55,6 +67,7 @@ namespace MyCalculator
             {
                 s = s.Remove(matches[i].Index, 1);
             }
+            System.Console.WriteLine("RemoveRepeatDecimalPoints " + s);
 
             return s;
         }
@@ -68,6 +81,7 @@ namespace MyCalculator
         {
             string pattern = @"^-?0?$";
             s = Regex.Replace(s, pattern, "0");
+            System.Console.WriteLine("ConvertEmptyToZero " + s);
 
             return s;
         }
@@ -81,6 +95,7 @@ namespace MyCalculator
         {
             string pattern = @",";
             s = Regex.Replace(s, pattern, "");
+            System.Console.WriteLine("RemoveCommas " + s);
 
             return s;
         }
@@ -96,6 +111,7 @@ namespace MyCalculator
             string[] arr = s.Split('.');
             arr[0] = Regex.Replace(arr[0], pattern, "$1,");
             s = string.Join(".", arr);
+            System.Console.WriteLine("AddCommas " + s);
 
             return s;
         }
@@ -110,6 +126,7 @@ namespace MyCalculator
             string pattern = @"∞";
             s = Regex.Replace(s, pattern, "無法除以零");
 
+            System.Console.WriteLine("CanNotDivideByZero " + s);
             return s;
         }
     }
