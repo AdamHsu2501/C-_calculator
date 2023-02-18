@@ -151,5 +151,21 @@
         {
             State.HandleRightParenthesis();
         }
+
+        /// <summary>
+        /// Handle left Bracket
+        /// </summary>
+        public void HandleLeftBracket()
+        {
+            State.HandleLeftBracket();
+        }
+
+        /// <summary>
+        /// Hnalde right Bracket
+        /// </summary>
+        public void HandleRightBracket()
+        {
+            State.HandleRightBracket();
+        }
     }
 }

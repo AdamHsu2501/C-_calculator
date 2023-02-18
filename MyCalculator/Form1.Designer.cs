@@ -48,16 +48,10 @@
             this.buttonRightParenthesis = new System.Windows.Forms.Button();
             this.buttonSquareRoot = new System.Windows.Forms.Button();
             this.buttonDivision = new System.Windows.Forms.Button();
-            this.percentBtn = new System.Windows.Forms.Button();
+            this.buttonLeftBracket = new System.Windows.Forms.Button();
             this.buttonClearEntry = new System.Windows.Forms.Button();
             this.buttonClear = new System.Windows.Forms.Button();
             this.buttonBackspace = new System.Windows.Forms.Button();
-            this.mcBtn = new System.Windows.Forms.Button();
-            this.mrBtn = new System.Windows.Forms.Button();
-            this.mAddBtn = new System.Windows.Forms.Button();
-            this.mMinusBtn = new System.Windows.Forms.Button();
-            this.msBtn = new System.Windows.Forms.Button();
-            this.mViewBtn = new System.Windows.Forms.Button();
             this.menuBtn = new System.Windows.Forms.Button();
             this.topBtn = new System.Windows.Forms.Button();
             this.historyBtn = new System.Windows.Forms.Button();
@@ -67,6 +61,7 @@
             this.labelInfix = new System.Windows.Forms.Label();
             this.labelPrefix = new System.Windows.Forms.Label();
             this.labelPostfix = new System.Windows.Forms.Label();
+            this.buttonRightBracket = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonNegate
@@ -270,18 +265,19 @@
             this.buttonDivision.UseVisualStyleBackColor = true;
             this.buttonDivision.Click += new System.EventHandler(this.button_Click);
             // 
-            // percentBtn
+            // buttonLeftBracket
             // 
-            this.percentBtn.Location = new System.Drawing.Point(12, 300);
-            this.percentBtn.Name = "percentBtn";
-            this.percentBtn.Size = new System.Drawing.Size(75, 52);
-            this.percentBtn.TabIndex = 20;
-            this.percentBtn.Text = "%";
-            this.percentBtn.UseVisualStyleBackColor = true;
+            this.buttonLeftBracket.Location = new System.Drawing.Point(12, 300);
+            this.buttonLeftBracket.Name = "buttonLeftBracket";
+            this.buttonLeftBracket.Size = new System.Drawing.Size(75, 52);
+            this.buttonLeftBracket.TabIndex = 20;
+            this.buttonLeftBracket.Text = "[";
+            this.buttonLeftBracket.UseVisualStyleBackColor = true;
+            this.buttonLeftBracket.Click += new System.EventHandler(this.button_Click);
             // 
             // buttonClearEntry
             // 
-            this.buttonClearEntry.Location = new System.Drawing.Point(93, 300);
+            this.buttonClearEntry.Location = new System.Drawing.Point(174, 300);
             this.buttonClearEntry.Name = "buttonClearEntry";
             this.buttonClearEntry.Size = new System.Drawing.Size(75, 52);
             this.buttonClearEntry.TabIndex = 21;
@@ -291,7 +287,7 @@
             // 
             // buttonClear
             // 
-            this.buttonClear.Location = new System.Drawing.Point(174, 300);
+            this.buttonClear.Location = new System.Drawing.Point(256, 242);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(75, 52);
             this.buttonClear.TabIndex = 22;
@@ -308,62 +304,6 @@
             this.buttonBackspace.Text = "B";
             this.buttonBackspace.UseVisualStyleBackColor = true;
             this.buttonBackspace.Click += new System.EventHandler(this.button_Click);
-            // 
-            // mcBtn
-            // 
-            this.mcBtn.Enabled = false;
-            this.mcBtn.Location = new System.Drawing.Point(12, 256);
-            this.mcBtn.Name = "mcBtn";
-            this.mcBtn.Size = new System.Drawing.Size(46, 38);
-            this.mcBtn.TabIndex = 24;
-            this.mcBtn.Text = "MC";
-            this.mcBtn.UseVisualStyleBackColor = true;
-            // 
-            // mrBtn
-            // 
-            this.mrBtn.Enabled = false;
-            this.mrBtn.Location = new System.Drawing.Point(64, 256);
-            this.mrBtn.Name = "mrBtn";
-            this.mrBtn.Size = new System.Drawing.Size(46, 38);
-            this.mrBtn.TabIndex = 25;
-            this.mrBtn.Text = "MR";
-            this.mrBtn.UseVisualStyleBackColor = true;
-            // 
-            // mAddBtn
-            // 
-            this.mAddBtn.Location = new System.Drawing.Point(116, 256);
-            this.mAddBtn.Name = "mAddBtn";
-            this.mAddBtn.Size = new System.Drawing.Size(47, 38);
-            this.mAddBtn.TabIndex = 26;
-            this.mAddBtn.Text = "M+";
-            this.mAddBtn.UseVisualStyleBackColor = true;
-            // 
-            // mMinusBtn
-            // 
-            this.mMinusBtn.Location = new System.Drawing.Point(174, 256);
-            this.mMinusBtn.Name = "mMinusBtn";
-            this.mMinusBtn.Size = new System.Drawing.Size(47, 38);
-            this.mMinusBtn.TabIndex = 27;
-            this.mMinusBtn.Text = "M-";
-            this.mMinusBtn.UseVisualStyleBackColor = true;
-            // 
-            // msBtn
-            // 
-            this.msBtn.Location = new System.Drawing.Point(227, 256);
-            this.msBtn.Name = "msBtn";
-            this.msBtn.Size = new System.Drawing.Size(43, 38);
-            this.msBtn.TabIndex = 28;
-            this.msBtn.Text = "MS";
-            this.msBtn.UseVisualStyleBackColor = true;
-            // 
-            // mViewBtn
-            // 
-            this.mViewBtn.Location = new System.Drawing.Point(276, 256);
-            this.mViewBtn.Name = "mViewBtn";
-            this.mViewBtn.Size = new System.Drawing.Size(43, 38);
-            this.mViewBtn.TabIndex = 29;
-            this.mViewBtn.Text = "M🢗";
-            this.mViewBtn.UseVisualStyleBackColor = true;
             // 
             // menuBtn
             // 
@@ -396,7 +336,7 @@
             // 
             this.labelResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelResult.Font = new System.Drawing.Font("新細明體", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelResult.Location = new System.Drawing.Point(12, 101);
+            this.labelResult.Location = new System.Drawing.Point(12, 93);
             this.labelResult.Name = "labelResult";
             this.labelResult.Size = new System.Drawing.Size(319, 48);
             this.labelResult.TabIndex = 33;
@@ -408,7 +348,7 @@
             this.labelFormula.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelFormula.Enabled = false;
             this.labelFormula.Font = new System.Drawing.Font("新細明體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelFormula.Location = new System.Drawing.Point(12, 67);
+            this.labelFormula.Location = new System.Drawing.Point(12, 60);
             this.labelFormula.Name = "labelFormula";
             this.labelFormula.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelFormula.Size = new System.Drawing.Size(307, 19);
@@ -430,7 +370,7 @@
             this.labelInfix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelInfix.Enabled = false;
             this.labelInfix.Font = new System.Drawing.Font("新細明體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelInfix.Location = new System.Drawing.Point(23, 155);
+            this.labelInfix.Location = new System.Drawing.Point(23, 147);
             this.labelInfix.Name = "labelInfix";
             this.labelInfix.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelInfix.Size = new System.Drawing.Size(307, 19);
@@ -443,7 +383,7 @@
             this.labelPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelPrefix.Enabled = false;
             this.labelPrefix.Font = new System.Drawing.Font("新細明體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelPrefix.Location = new System.Drawing.Point(23, 188);
+            this.labelPrefix.Location = new System.Drawing.Point(23, 180);
             this.labelPrefix.Name = "labelPrefix";
             this.labelPrefix.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelPrefix.Size = new System.Drawing.Size(307, 19);
@@ -456,7 +396,7 @@
             this.labelPostfix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelPostfix.Enabled = false;
             this.labelPostfix.Font = new System.Drawing.Font("新細明體", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelPostfix.Location = new System.Drawing.Point(23, 220);
+            this.labelPostfix.Location = new System.Drawing.Point(23, 212);
             this.labelPostfix.Name = "labelPostfix";
             this.labelPostfix.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.labelPostfix.Size = new System.Drawing.Size(307, 19);
@@ -464,11 +404,22 @@
             this.labelPostfix.Text = "postfix";
             this.labelPostfix.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // buttonRightBracket
+            // 
+            this.buttonRightBracket.Location = new System.Drawing.Point(93, 300);
+            this.buttonRightBracket.Name = "buttonRightBracket";
+            this.buttonRightBracket.Size = new System.Drawing.Size(75, 52);
+            this.buttonRightBracket.TabIndex = 39;
+            this.buttonRightBracket.Text = "]";
+            this.buttonRightBracket.UseVisualStyleBackColor = true;
+            this.buttonRightBracket.Click += new System.EventHandler(this.button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(343, 656);
+            this.Controls.Add(this.buttonRightBracket);
             this.Controls.Add(this.labelPostfix);
             this.Controls.Add(this.labelPrefix);
             this.Controls.Add(this.labelInfix);
@@ -478,16 +429,10 @@
             this.Controls.Add(this.historyBtn);
             this.Controls.Add(this.topBtn);
             this.Controls.Add(this.menuBtn);
-            this.Controls.Add(this.mViewBtn);
-            this.Controls.Add(this.msBtn);
-            this.Controls.Add(this.mMinusBtn);
-            this.Controls.Add(this.mAddBtn);
-            this.Controls.Add(this.mrBtn);
-            this.Controls.Add(this.mcBtn);
             this.Controls.Add(this.buttonBackspace);
             this.Controls.Add(this.buttonClear);
             this.Controls.Add(this.buttonClearEntry);
-            this.Controls.Add(this.percentBtn);
+            this.Controls.Add(this.buttonLeftBracket);
             this.Controls.Add(this.buttonDivision);
             this.Controls.Add(this.buttonSquareRoot);
             this.Controls.Add(this.buttonRightParenthesis);
@@ -537,16 +482,10 @@
         private System.Windows.Forms.Button buttonRightParenthesis;
         private System.Windows.Forms.Button buttonSquareRoot;
         private System.Windows.Forms.Button buttonDivision;
-        private System.Windows.Forms.Button percentBtn;
+        private System.Windows.Forms.Button buttonLeftBracket;
         private System.Windows.Forms.Button buttonClearEntry;
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Button buttonBackspace;
-        private System.Windows.Forms.Button mcBtn;
-        private System.Windows.Forms.Button mrBtn;
-        private System.Windows.Forms.Button mAddBtn;
-        private System.Windows.Forms.Button mMinusBtn;
-        private System.Windows.Forms.Button msBtn;
-        private System.Windows.Forms.Button mViewBtn;
         private System.Windows.Forms.Button menuBtn;
         private System.Windows.Forms.Button topBtn;
         private System.Windows.Forms.Button historyBtn;
@@ -556,5 +495,6 @@
         private System.Windows.Forms.Label labelInfix;
         private System.Windows.Forms.Label labelPrefix;
         private System.Windows.Forms.Label labelPostfix;
+        private System.Windows.Forms.Button buttonRightBracket;
     }
 }

@@ -30,6 +30,11 @@
         }
 
         /// <summary>
+        /// Handle equal
+        /// </summary>
+        public abstract void HandleEqual();
+
+        /// <summary>
         /// Handle clear entry
         /// </summary>
         public abstract void HandleClearEntry();
@@ -91,8 +96,13 @@
         public abstract void HandleRightParenthesis();
 
         /// <summary>
-        /// Handle equal
+        /// Handle left Bracket
         /// </summary>
-        public abstract void HandleEqual();
+        public abstract void HandleLeftBracket();
+
+        /// <summary>
+        /// Hnalde right Bracket
+        /// </summary>
+        public abstract void HandleRightBracket();
     }
 }

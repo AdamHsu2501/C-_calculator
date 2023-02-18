@@ -28,9 +28,9 @@ namespace MyCalculatorAPI
         public Stack<TreeNode> Operators { get; set; }
 
         /// <summary>
-        /// Count left Parenthesis 
+        /// Stack right Parenthesis or brackets 
         /// </summary>
-        private int ParenthesisCount = 0;
+        public Stack<TreeNode> RightBrackets { get; set; }
 
         /// <summary>
         /// Value list from user inputs
@@ -63,8 +63,8 @@ namespace MyCalculatorAPI
             Values = new Stack<TreeNode>();
             Values.Push(new NumberNode(value));
             Operators = new Stack<TreeNode>();
+            RightBrackets = new Stack<TreeNode>();
             Inputs = new List<string>();
-            ParenthesisCount = 0;
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace MyCalculatorAPI
                 return "";
             }
 
-            if (node.Value == new LeftParenthesisNode().Value)
+            if (node is LeftParenthesisNode)
             {
                 return Preorder(node.Right);
             }
@@ -163,7 +163,7 @@ namespace MyCalculatorAPI
                 return "";
             }
 
-            if (node.Value == new LeftParenthesisNode().Value)
+            if (node is LeftParenthesisNode)
             {
                 return Inorder(node.Right);
             }
@@ -204,7 +204,7 @@ namespace MyCalculatorAPI
                 return "";
             }
 
-            if (node.Value == new LeftParenthesisNode().Value)
+            if (node is LeftParenthesisNode)
             {
                 return Postorder(node.Right);
             }
@@ -351,14 +351,37 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
+        /// 1.Stack Operators push TreeNode left bracket  
+        /// 2.List inputs add TreeNode left bracket value
+        /// 3.Stack RightBrackets push TreeNode right bracket 
+        /// </summary>
+        /// <param name="left">Left Bracket TreeNode</param>
+        /// <param name="right">Right Bracket TreeNode</param>
+        private void DoLeftBracktes(TreeNode left, TreeNode right)
+        {
+            Operators.Push(left);
+            Inputs.Add(left.Value);
+            RightBrackets.Push(right);
+        }
+
+        /// <summary>
         /// Handle left parenthesis
         /// </summary>
         public void HandleLeftParenthesis()
         {
-            TreeNode node = new LeftParenthesisNode();
-            Operators.Push(node);
-            Inputs.Add(node.Value);
-            ParenthesisCount++;
+            //TreeNode node = new LeftParenthesisNode();
+            //Operators.Push(node);
+            //Inputs.Add(node.Value);
+            //RightBrackets.Push(new RightParenthesisNode());
+            DoLeftBracktes(new LeftParenthesisNode(), new RightParenthesisNode());
+        }
+
+        /// <summary>
+        /// Handle left parenthesis
+        /// </summary>
+        public void HandleLeftBrackets()
+        {
+            DoLeftBracktes(new LeftParenthesisNode("["), new RightParenthesisNode("]"));
         }
 
         /// <summary>
@@ -366,11 +389,11 @@ namespace MyCalculatorAPI
         /// </summary>
         public void HandleRightParenthesis()
         {
-            if (ParenthesisCount > 0)
+            if (RightBrackets.Count > 0)
             {
+                Inputs.Add(RightBrackets.Peek().Value);
                 Calculate();
-                Inputs.Add(new RightParenthesisNode().Value);
-                ParenthesisCount--;
+                //Inputs.Add(new RightParenthesisNode().Value);
             }
         }
 
@@ -379,7 +402,7 @@ namespace MyCalculatorAPI
         /// </summary>
         public void HandleEqual()
         {
-            int count = ParenthesisCount;
+            int count = RightBrackets.Count;
             for (int i = 0; i < count; i++)
             {
                 HandleRightParenthesis();
@@ -401,18 +424,18 @@ namespace MyCalculatorAPI
 
             TreeNode op = Operators.Pop();
 
-            if (op.Value != new LeftParenthesisNode().Value)
+            if (op is LeftParenthesisNode)
+            {
+                op.Right = Values.Pop();
+                Values.Push(op);
+                AddRightParenthesis(op.Right);
+            }
+            else
             {
                 op.Right = Values.Pop();
                 op.Left = Values.Pop();
                 Values.Push(op);
                 Calculate();
-            }
-            else
-            {
-                op.Right = Values.Pop();
-                Values.Push(op);
-                AddRightParenthesis(op.Right);
             }
         }
 
@@ -428,7 +451,7 @@ namespace MyCalculatorAPI
             }
             else
             {
-                node.Right = new RightParenthesisNode();
+                node.Right = RightBrackets.Pop();
             }
         }
     }

@@ -140,6 +140,22 @@
         }
 
         /// <summary>
+        /// Handle left Bracket
+        /// </summary>
+        public override void HandleLeftBracket()
+        {
+            Restart();
+        }
+
+        /// <summary>
+        /// Hnalde right Bracket
+        /// </summary>
+        public override void HandleRightBracket()
+        {
+            HandleRightParenthesis();
+        }
+
+        /// <summary>
         /// Handle equal
         /// </summary>
         public override void HandleEqual()

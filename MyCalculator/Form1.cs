@@ -39,6 +39,9 @@ namespace MyCalculator
             buttonLeftParenthesis.Tag = "leftparenthesis";
             buttonRightParenthesis.Tag = "rightparenthesis";
 
+            buttonLeftBracket.Tag = "leftbracket";
+            buttonRightBracket.Tag = "rightbracket";
+
             buttonClear.Tag = "clear";
             buttonClearEntry.Tag = "clearentry";
 

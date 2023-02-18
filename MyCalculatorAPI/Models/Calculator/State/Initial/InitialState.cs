@@ -127,6 +127,22 @@
         }
 
         /// <summary>
+        /// Handle left Bracket
+        /// </summary>
+        public override void HandleLeftBracket()
+        {
+            Context.Tree.HandleLeftBrackets();
+            SetState(new ParenthesisInitialState(Context));
+        }
+
+        /// <summary>
+        /// Hnalde right Bracket
+        /// </summary>
+        public override void HandleRightBracket()
+        {
+        }
+
+        /// <summary>
         /// Handle equal
         /// </summary>
         public override void HandleEqual()

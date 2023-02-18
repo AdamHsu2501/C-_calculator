@@ -132,6 +132,28 @@ namespace MyCalculatorAPI
         }
 
         /// <summary>
+        /// Handle left Bracket
+        /// </summary>
+        public override void HandleLeftBracket()
+        {
+            Context.Tree.InputAddValue();
+            Context.Tree.SetMultiplication();
+            Context.Tree.InputAddOperator();
+            Context.Tree.HandleOperator();
+            Context.Tree.HandleLeftBrackets();
+            Context.Tree.CreateNode();
+
+            SetState(new ParenthesisInitialState(Context));
+        }
+
+        /// <summary>
+        /// Hnalde right Bracket
+        /// </summary>
+        public override void HandleRightBracket()
+        {
+        }
+
+        /// <summary>
         /// Handle equal
         /// </summary>
         public override void HandleEqual()
